@@ -6,4 +6,5 @@
 - picocss
 - expressjs
 - vuejs
-- brython/pyodides
+- pyodide
+- codemirror
