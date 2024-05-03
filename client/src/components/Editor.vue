@@ -1,9 +1,5 @@
 <template>
   <div>
-    <h1>Visualgo</h1>
-  </div>
-
-  <div>
     <Codemirror
     v-model:value="code"
     :options="cmOptions"
@@ -70,7 +66,5 @@ methods:{
 </script>
 
 <style scoped>
-#editor{
-  text-align: left;
-}
+
 </style>

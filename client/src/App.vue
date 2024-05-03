@@ -1,5 +1,18 @@
 <template>
-  <Editor />
+<article data-theme="dark">
+  <nav>
+  <ul>
+    <li><h3>Visualgo</h3></li>
+  </ul>
+  <ul>
+    <li><a href="#">Accounts</a></li>
+  </ul>
+</nav>
+
+    <Editor />
+
+</article>
+
   
 </template>
 
@@ -19,8 +32,5 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
