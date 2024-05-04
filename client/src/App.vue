@@ -1,29 +1,29 @@
 <template>
-<article data-theme="dark">
-  <nav>
-  <ul>
+  <article data-theme="dark">
+    <nav>
+    <ul>
     <li><h3>Visualgo</h3></li>
   </ul>
   <ul>
-    <li><a href="#">Accounts</a></li>
+    <li><a href="#">Login</a></li>
   </ul>
-</nav>
+  </nav>
+<Login/>
+  </article>
+  
 
-    <Editor />
-  <TestCases />
-</article>
+
+
 
   
 </template>
 
 <script>
-import Editor from './components/Editor.vue';
-import TestCases from './components/TestCases.vue';
+import Login from './components/Login.vue';
 export default {
   name: 'App',
   components: {
-    Editor,
-    TestCases
+    Login
   }
 }
 
@@ -34,5 +34,6 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
 }
 </style>

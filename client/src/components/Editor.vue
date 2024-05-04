@@ -4,7 +4,7 @@
     v-model:value="code"
     :options="cmOptions"
     border
-    placeholder="Enter your code here"
+    placeholder="Enter your code here..."
     :height="200"
     @change="change"
     ref="cm"
@@ -35,8 +35,7 @@ data(){
 }
 ,
 setup(){
-  const code = ref(`def test():
-    print("1+2")`);
+  const code = ref(``);
   return{
     code,
     cmOptions:
