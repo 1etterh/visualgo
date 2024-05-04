@@ -10,6 +10,7 @@
     ref="cm"
     id="editor"
   />
+  <button @click="runCode()">run</button>
   </div>
 
 </template>
@@ -26,6 +27,13 @@ name: 'Editor',
 components: {
 Codemirror
 },
+data(){
+  return{
+    codeL:this.code,
+    pyodide:null
+  }
+}
+,
 setup(){
   const code = ref(`def test():
     print("1+2")`);
@@ -53,8 +61,11 @@ mounted(){
 
 methods:{
   async initPyodide(){
-    let pyodide = await window.loadPyodide();
-    console.log(pyodide.runPython("1+2"));
+    this.pyodide = await window.loadPyodide();
+    console.log(this.pyodide.runPython("1+2"));
+  },
+  runCode(){
+    console.log(this.pyodide.runPython("1+2"));
   }
 }
 }
