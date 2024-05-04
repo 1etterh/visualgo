@@ -10,7 +10,7 @@
 </nav>
 
     <Editor />
-
+  <TestCases />
 </article>
 
   
@@ -18,10 +18,12 @@
 
 <script>
 import Editor from './components/Editor.vue';
+import TestCases from './components/TestCases.vue';
 export default {
   name: 'App',
   components: {
-    Editor
+    Editor,
+    TestCases
   }
 }
 
