@@ -9,6 +9,7 @@ export default {
     name: 'Login',
     data() {
         return {
+         
             // Your component's data goes here
         };
     },

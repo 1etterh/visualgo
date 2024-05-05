@@ -7,15 +7,16 @@
     placeholder="Enter your code here..."
     :height="200"
     @change="change"
-    ref="cm"
     id="editor"
   />
   </div>
   <Button @click="runCode()" v-bind:disabled="pyodide==null">Run</Button>
   <p v-if="pyodide==null">Please wait...</p>
 
-
-  <TestCases/>
+  <input type="file" @change="handleFiles" multiple>
+  <ul>  
+  <li v-for="file in files" :key="file.name">{{ file.name }}</li>
+  </ul>
 </template>
 
 <script>
@@ -26,24 +27,23 @@ import "codemirror/addon/display/placeholder.js";
 
 
 
-import TestCases from "./TestCases.vue";
 
 import {ref} from 'vue';
 export default {
 name: 'Editor',
 components: {
 Codemirror,
-TestCases
+
 },
 data(){
   return{
-    codeL:this.code,
-    pyodide:null
+    pyodide:null,
+    files:[]
   }
 }
 ,
 setup(){
-  const code = ref(``);
+  const code = ref(`3**3`);
   return{
     code,
     cmOptions:
@@ -69,17 +69,50 @@ mounted(){
 methods:{
   async initPyodide(){
     this.pyodide = await window.loadPyodide();
-    console.log(this.pyodide.runPython("1+2"));
+    console.log(this.pyodide.runPython(this.code));
   },
   runCode(){
-    console.log(this.pyodide.runPython("1+2"));
+    let res = this.pyodide.runPython(this.code);
+    console.log(res);
+    // this.pyodide.setStdin();
+    if(this.files.length>0){
+      for (let i = 0; i < this.files.length; i++) {
+        const file = this.files[i];
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const contents = e.target.result;
+          this.pyodide.setStdin(new StdinHandler(contents.split('\n')));
+          this.pyodide.runPython(
+            `
+            from sys import stdin as s
+            for line in s:
+              print(line.rstrip())
+            `
+          );
+        };
+        reader.readAsText(file);
+      }
+      
+
+    }
+      },
+  handleFiles(e){
+    this.files = e.target.files;
+    console.log(this.files);
+}
+}
+}
+
+class StdinHandler{
+  constructor(results,options){
+    this.results = results;
+    this.idx = 0;
+    Object.assign(this,options);
+  }
+  stdin(){
+    return this.results[this.idx++];
   }
 }
-}
-
-
-
-
 
 </script>
 
