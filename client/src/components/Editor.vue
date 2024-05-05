@@ -10,9 +10,12 @@
     ref="cm"
     id="editor"
   />
-  <button @click="runCode()">run</button>
   </div>
+  <Button @click="runCode()" v-bind:disabled="pyodide==null">Run</Button>
+  <p v-if="pyodide==null">Please wait...</p>
 
+
+  <TestCases/>
 </template>
 
 <script>
@@ -21,11 +24,16 @@ import "codemirror/mode/python/python.js";
 import "codemirror/theme/material-ocean.css";
 import "codemirror/addon/display/placeholder.js";
 
+
+
+import TestCases from "./TestCases.vue";
+
 import {ref} from 'vue';
 export default {
 name: 'Editor',
 components: {
-Codemirror
+Codemirror,
+TestCases
 },
 data(){
   return{

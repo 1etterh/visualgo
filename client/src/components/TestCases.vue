@@ -15,7 +15,7 @@ export default {
     name: 'TestCases',
     data() {
         return {
-            files: []
+            files:[]
         }
     },
     // Your component's logic goes here,

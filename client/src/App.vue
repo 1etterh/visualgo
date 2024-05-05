@@ -2,16 +2,18 @@
   <article data-theme="dark">
     <nav>
     <ul>
-    <li><h3>Visualgo</h3></li>
+    <li><h3>VisuAlgo</h3></li>
   </ul>
   <ul>
     <li><a href="#">Login</a></li>
   </ul>
   </nav>
-<Login/>
+
+  <Editor/>
+  
+  
   </article>
   
-
 
 
 
@@ -19,11 +21,12 @@
 </template>
 
 <script>
-import Login from './components/Login.vue';
+import Editor from './components/Editor.vue';
 export default {
   name: 'App',
   components: {
-    Login
+    Editor,
+    
   }
 }
 
