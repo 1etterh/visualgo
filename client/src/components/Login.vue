@@ -1,6 +1,7 @@
 <template>
 <div>
-    
+    <input type="text" placeholder='ID' v-model="id">
+    <input type="text" placeholder='PW' v-model="pw">
 </div>
 </template>
 
@@ -9,7 +10,8 @@ export default {
     name: 'Login',
     data() {
         return {
-         
+         id: 'ID',
+         pw: 'PW'
             // Your component's data goes here
         };
     },

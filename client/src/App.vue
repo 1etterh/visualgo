@@ -5,11 +5,10 @@
     <li><h3>VisuAlgo</h3></li>
   </ul>
   <ul>
-    <li><a href="#">Login</a></li>
+    <router-link to="/login">Login</router-link>
   </ul>
   </nav>
-
-  <Editor/>
+  <router-view></router-view>
   
   
   </article>
@@ -21,11 +20,11 @@
 </template>
 
 <script>
-import Editor from './components/Editor.vue';
+// import Editor from './components/Editor.vue';
 export default {
   name: 'App',
   components: {
-    Editor,
+    // Editor,
     
   }
 }
@@ -33,6 +32,9 @@ export default {
 </script>
 
 <style>
+::-webkit-scrollbar{
+  display:none
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
