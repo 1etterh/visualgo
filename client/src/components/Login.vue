@@ -1,29 +1,51 @@
+<!-- LoginPage.vue -->
 <template>
-<div>
-    <input type="text" placeholder='ID' v-model="id">
-    <input type="text" placeholder='PW' v-model="pw">
-</div>
-</template>
+    <div class="login-page">
 
-<script>
-export default {
-    name: 'Login',
-    data() {
-        return {
-         id: 'ID',
-         pw: 'PW'
-            // Your component's data goes here
-        };
-    },
-    methods: {
-        // Your component's methods go here
-    },
-    mounted() {
-        // Code to run when the component is mounted goes here
-    },
-};
-</script>
+      <div class="login-form">
+     
+        <input type="text" placeholder="Username" v-model="username">
+        <input type="password" placeholder="Password" v-model="password">
+        <button @click="login" class="contrast">Login</button>
+      </div>
+      <div class="create-account">
+        <router-link to="/register">
+            or create account
+        </router-link>
+      </div>
+    </div>
+  </template>
+  
+  <script>
+  import axios from 'axios'
+  export default {
+    name:'Login',
+  data(){
+    return{
+      username:'',
+      password:''
+    }
+  } 
+  ,
+    methods:{
+      login(){
+        axios.post('/login',{username:this.username, password:this.password})
+        .then((res)=>{
+          if(res.data){
+            console.log('logged in')
+            this.$router.push('/')
+          }
+          else{
+            this.$router.go(-1)
+          }
+        })
+      }
+    }
+  }
+  </script>
+  
+  <style scoped>
 
-<style scoped>
-/* Your component's styles go here */
-</style>
+  
+  </style>
+  
