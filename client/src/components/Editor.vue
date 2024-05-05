@@ -81,12 +81,11 @@ methods:{
         const reader = new FileReader();
         reader.onload = (e) => {
           const contents = e.target.result;
-          this.pyodide.setStdin(new StdinHandler(contents.split('\n')));
+          this.pyodide.setStdin(new StdinHandler(contents.split()));
           this.pyodide.runPython(
             `
             from sys import stdin as s
-            for line in s:
-              print(line.rstrip())
+            print(s.readlines())
             `
           );
         };
