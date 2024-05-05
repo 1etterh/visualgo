@@ -102,6 +102,20 @@ methods:{
   handleFiles(e){
     this.files = e.target.files;
     console.log(this.files);
+},
+saveFiles(){
+  this.$axios.post('/save',{files: this.files, code: this.code})
+  .then(res=>{
+    if (res.data.success){
+      console.log('Files saved successfully')
+    }
+    else{
+      console.log("error saving files")
+    }
+  })
+  .catch(err=>{
+    console.log(err);
+  })
 }
 }
 }
