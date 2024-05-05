@@ -17,6 +17,10 @@
   <ul>  
   <li v-for="file in files" :key="file.name">{{ file.name }}</li>
   </ul>
+
+
+  <Button v-bind:disabled="pyodide==null">Save Results</Button>
+
 </template>
 
 <script>
