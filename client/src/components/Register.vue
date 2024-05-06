@@ -26,6 +26,7 @@
   </template>
   
   <script>
+  import axios from 'axios'
   export default {
     name: "Register",
     data() {
@@ -51,65 +52,33 @@
       }
     },
     methods: {
-      async checkUsername() {
-        try {
-          const response = await fetch('/checkUsername', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              username: this.registerUsername
+        checkUsername() {
+            axios
+            .post("/checkUsername", { username: this.registerUsername })
+            .then(res => {
+                if (res.data) {
+                this.isUsernameUnique = true;
+                } else {
+                this.isUsernameUnique = false;
+                }
+            });
+        },
+        register() {
+            axios
+            .post("/register", {
+                username: this.registerUsername,
+                password: this.registerPassword
             })
-          });
-  
-          const data = await response.json();
-          if (data.exists) {
-            alert('이미 사용 중인 사용자 이름입니다.');
-          } else {
-            alert('사용 가능한 사용자 이름입니다.');
-              this.isUsernameUnique = true;
-              this.isPasswordVisible = true;        }
-        } catch (error) {
-          console.error(error);
-          alert('사용자 이름을 확인하는 중 오류가 발생했습니다.');
+            .then(res => {
+                if (res.data) {
+                console.log("registered");
+                this.$router.push("/login");
+                } else {
+                console.log("failed to register");
+                }
+            });
         }
-  
-  
-      },
-      async register() {
-        console.log("registerbuttonclicked")
-        try {
-          const response = await fetch('/register', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              username: this.registerUsername,
-              password: this.registerPassword
-            })
-          });
-  
-          const data = await response.json();
-          if(data.success==true){
-            this.$router.push('/login')
-          }
-          else{
-            this.$router.go(-1)
-          }
-          console.log('Register.vue, line:99',data.message)
-          alert(data.success);
-        } catch (error) {
-          console.error(error);
-          alert('회원 가입 중 오류가 발생했습니다.');
-        }
-  
-  
-        // 회원 가입 기능 구현
-      }
-    }
-  };
+    }}
   </script>
   
   <style scoped>
