@@ -5,7 +5,8 @@
     <li><h3>VisuAlgo</h3></li>
   </ul>
   <ul>
-    <router-link to="/login">Login</router-link>
+    <router-link v-if="!isLoggedIn" to="/login">Login</router-link>
+    <router-link v-if="isLoggedIn" to="/Workspace">Workspace</router-link>
   </ul>
   </nav>
   <router-view></router-view>
@@ -26,6 +27,11 @@ export default {
   components: {
     // Editor,
     
+  },
+  data(){
+    return {
+      isLoggedIn:false
+    }
   }
 }
 
