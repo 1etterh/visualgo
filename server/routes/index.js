@@ -7,7 +7,7 @@ const bcrypt = require('bcrypt');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const MySQLStore = require('express-mysql-session')(session);
-import isLoggedIn from "@/modules/auth.js";
+
 // Session store configuration
 const sessionStore = new MySQLStore({
     host: process.env.RDS_HOSTNAME,
@@ -129,7 +129,14 @@ router.post('/register', async (req, res) => {
     }
 });
 
-
+// Middleware to check if user is authenticated
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next(); // User is authenticated, proceed to the next middleware
+    }
+    // User is not authenticated, send an error response
+    return res.status(401).json({ message: 'Unauthorized' });
+}
 
 // Export the router
 module.exports = router;
