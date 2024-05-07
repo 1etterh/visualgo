@@ -7,7 +7,6 @@ const bcrypt = require('bcrypt');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const MySQLStore = require('express-mysql-session')(session);
-import isLoggedIn from "@/modules/auth.js";
 // Session store configuration
 const sessionStore = new MySQLStore({
     host: process.env.RDS_HOSTNAME,
@@ -52,9 +51,7 @@ passport.use(new LocalStrategy(async (username, password, done) => {
                 return done(err);
             }
             if (!isMatch) {
-              console.log(user.password);
               const h = await bcrypt.hash(password,10);
-              console.log(h)
                 return done(null, false, { message: 'Wrong password' });
             }
             return done(null, user);
@@ -86,7 +83,7 @@ passport.deserializeUser((id, done) => {
 router.post('/login', async (req, res, next) => {
   console.log('Login request received:', req.body); // 요청 본문 로그
   passport.authenticate('local', (error, user, info) => {
-    console.log('Passport authentication result:', { error, user, info }); // Passport 인증 결과 로그
+    // console.log('Passport authentication result:', { error, user, info }); // Passport 인증 결과 로그
     if (error) return res.status(500).json({ message: 'Internal server error' });
     if (!user) return res.status(401).json({ message: info.message });
     req.logIn(user, (err) => {
