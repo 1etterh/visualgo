@@ -28,7 +28,7 @@ import Codemirror from "codemirror-editor-vue3";
 import "codemirror/mode/python/python.js";
 import "codemirror/theme/material-ocean.css";
 import "codemirror/addon/display/placeholder.js";
-
+import axios from 'axios';
 
 
 
@@ -103,6 +103,24 @@ methods:{
     this.files = e.target.files;
     console.log(this.files);
 },
+saveResults(){
+  const formData = new FormData();
+  formData.append('code',this.code);
+  this.files.forEach(file=>{
+    formData.append('testcases',file)
+
+    axios.post('/upload', formData,{
+      headers:{
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    .then(res=>{
+      console.log(res.data)
+    })
+    .catch(err=>{
+      console.log(err)    
+  })})
+}
 
 }
 }
