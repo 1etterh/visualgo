@@ -9,4 +9,4 @@ function isLoggedIn(req, res, next) {
 
 // Dashboard route - protected by isLoggedIn middleware
 
-module.exports = router;
+module.exports = {isLoggedIn};

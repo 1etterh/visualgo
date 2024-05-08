@@ -19,7 +19,7 @@
   </ul>
 
 
-  <Button v-bind:disabled="pyodide==null">Save Results</Button>
+  <Button @click="saveResults()"  v-bind:disabled="pyodide==null">Save Results</Button>
 
 </template>
 
@@ -104,11 +104,15 @@ methods:{
     console.log(this.files);
 },
 saveResults(){
-  const formData = new FormData();
+  let formData = new FormData();
   formData.append('code',this.code);
-  this.files.forEach(file=>{
-    formData.append('testcases',file)
-
+ 
+  for (let i = 0;i<this.files.length;i++){
+    formData.append('files',this.files[i]);
+  }
+  for (let pair of formData.entries()) {
+        console.log(pair[0]+ ', ' + pair[1]); 
+    }
     axios.post('/upload', formData,{
       headers:{
         'Content-Type': 'multipart/form-data'
@@ -119,11 +123,11 @@ saveResults(){
     })
     .catch(err=>{
       console.log(err)    
-  })})
+  })}
 }
 
 }
-}
+
 
 class StdinHandler{
   constructor(results,options){
