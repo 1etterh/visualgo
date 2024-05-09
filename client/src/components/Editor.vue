@@ -11,7 +11,7 @@
   />
   </div>
   <Button @click="runCode()" v-bind:disabled="pyodide==null">Run</Button>
-  <p v-if="pyodide==null">Please wait...</p>
+  <p v-if="pyodide==null">Loading Pyodide. Please wait...</p>
 
   <input type="file" @change="handleFiles" multiple>
   <ul>  
