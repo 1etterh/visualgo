@@ -1,44 +1,35 @@
 <template>
-  <article data-theme="dark">
-    <nav>
-    <ul>
-    <li><h3>VisuAlgo</h3></li>
-  </ul>
-  <ul>
-    <router-link to="/login">Login</router-link>
-  </ul>
-  </nav>
-  <router-view></router-view>
-  
-  
-  </article>
-  
-
-
-
-  
+  <div>
+    <Editor @code-executed="handleCodeResult" />
+    <Analysis :result="executionResult" />
+  </div>
 </template>
 
 <script>
-// import Editor from './components/Editor.vue';
+import Editor from './components/analysis/Editor.vue';
+import Analysis from './components/analysis/Analysis.vue';
+import { ref } from 'vue';
+
 export default {
-  name: 'App',
   components: {
-    // Editor,
-    
+    Editor,
+    Analysis
+  },
+  setup() {
+    const executionResult = ref('');
+
+    const handleCodeResult = (result) => {
+      executionResult.value = result;
+    };
+
+    return {
+      executionResult,
+      handleCodeResult
+    };
   }
 }
-
 </script>
 
 <style>
-::-webkit-scrollbar{
-  display:none
-}
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-}
+/* Add any necessary styles */
 </style>

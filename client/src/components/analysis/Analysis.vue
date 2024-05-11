@@ -9,7 +9,7 @@
   </template>
   
   <script>
-  import { defineComponent, ref } from 'vue';
+  import { defineComponent, ref,watch } from 'vue';
   
   export default defineComponent({
     name: 'Analysis',
