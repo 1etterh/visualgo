@@ -6,6 +6,7 @@
       border
       placeholder="Enter your code here..."
       :height="200"
+      ref="cm"
       id="editor"
     />
     <Button @click="runCode" v-bind:disabled="pyodide == null">Run</Button>
@@ -37,7 +38,7 @@ export default defineComponent({
     const code = ref(`3**3`);
     const pyodide = ref(null);
     const files = ref([]);
-
+    
     onMounted(async () => {
       const script = document.createElement('script');
       script.src = 'https://cdn.jsdelivr.net/pyodide/v0.25.1/full/pyodide.js';
@@ -81,7 +82,13 @@ export default defineComponent({
       runCode,
       handleFiles,
       saveResults,
-      files
+      files,
+      cmOptions:{
+      styleActiveLine: true,
+      lineNumbers: true,
+      mode:"text/x-python",
+      theme:"material-ocean",
+    }
     };
   },
 });
