@@ -15,7 +15,6 @@
     "pyodide": "^0.25.1",
     "vue": "^3.2.13",
     "vue-picocss": "^0.2.7",
-    "vue-plugin-load-script": "^2.1.1",
     "vue-router": "^4.3.2"
   },
   "devDependencies": {
