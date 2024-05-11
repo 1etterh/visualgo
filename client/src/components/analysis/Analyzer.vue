@@ -1,26 +1,49 @@
 <template>
-    <div id = 'analyzer'>
+    <div>
+      <button @click="executeCode" v-bind:disabled="pyodide == null">Run Code in Analyzer</button>
+      <p v-if="pyodide == null">Loading Pyodide. Please wait...</p>
+      <div v-if="result !== null">Result: {{ result }}</div>
     </div>
-</template>
-
-<script>
-export default {
+  </template>
+  
+  <script>
+  export default {
     name: 'Analyzer',
+    props: {
+      code: String
+    },
     data() {
-        return {
-            // Your component's data properties go here
-        };
+      return {
+        pyodide: null,
+        result: null
+      };
     },
     methods: {
-        // Your component's methods go here
+      async executeCode() {
+        if (this.pyodide) {
+          this.result = this.pyodide.runPython(this.code);
+          console.log(this.result);
+        }
+      },
+      async loadPyodide() {
+        if (!this.pyodide) {
+          const script = document.createElement('script');
+          script.src = 'https://cdn.jsdelivr.net/pyodide/v0.25.1/full/pyodide.js';
+          document.head.appendChild(script);
+          script.onload = async () => {
+            this.pyodide = await window.loadPyodide();
+            console.log('Pyodide loaded');
+          };
+        }
+      }
     },
     mounted() {
-        // Code to run when the component is mounted goes here
-    },
-    // Other component options (e.g., computed properties, lifecycle hooks) go here
-};
-</script>
-
-<style scoped>
-/* Your component's CSS styles go here */
-</style>
+      this.loadPyodide();
+    }
+  }
+  </script>
+  
+  <style scoped>
+  /* Your styles here */
+  </style>
+  
