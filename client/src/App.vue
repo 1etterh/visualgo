@@ -1,27 +1,35 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+  <div>
+    <Editor @code-executed="handleCodeResult" />
+    <Analysis :result="executionResult" />
+  </div>
 </template>
 
-<script lang="ts">
-import { Options, Vue } from 'vue-class-component';
-import HelloWorld from './components/HelloWorld.vue';
+<script>
+import Editor from './components/analysis/Editor.vue';
+import Analysis from './components/analysis/Analysis.vue';
+import { ref } from 'vue';
 
-@Options({
+export default {
   components: {
-    HelloWorld,
+    Editor,
+    Analysis
   },
-})
-export default class App extends Vue {}
+  setup() {
+    const executionResult = ref('');
+
+    const handleCodeResult = (result) => {
+      executionResult.value = result;
+    };
+
+    return {
+      executionResult,
+      handleCodeResult
+    };
+  }
+}
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+/* Add any necessary styles */
 </style>
