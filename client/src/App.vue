@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import Editor from './components/analysis/Editor.vue';
+import Editor from './components/analysis/CodeEditor.vue';
 import Analysis from './components/analysis/Analysis.vue';
 import { ref } from 'vue';
 

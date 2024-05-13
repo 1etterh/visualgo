@@ -35,7 +35,11 @@ export default defineComponent({
     Codemirror,
   },
   setup(props, { emit }) {
-    const code = ref(`3**3`);
+    const code = ref(`
+    x=0
+    for i in range:
+      x+=i
+    `);
     const pyodide = ref(null);
     const files = ref([]);
     
