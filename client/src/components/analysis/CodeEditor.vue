@@ -25,7 +25,9 @@
   import type { State } from './Types';
   const state: State = reactive({
         pyodide: null,
-        code: `# Write your Python code here\n3**3`,
+        code: `# Write your Python code here\nimport json
+data={'name':0, 'x':1, 'y':3}
+json.dumps(data)`,
         results: JSON.parse('{}'),
         variables: {},
         classes: {},
