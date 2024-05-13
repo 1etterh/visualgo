@@ -1,0 +1,52 @@
+[
+    {
+        "loop_info": {
+            "for": 0
+        },
+        "variables": {
+            "result": null,
+            "x": 0,
+            "cnt": null
+        }
+    },
+    {
+        "loop_info": {
+            "for": 1
+        },
+        "variables": {
+            "result": null,
+            "x": 1,
+            "cnt": null
+        }
+    },
+    {
+        "loop_info": {
+            "for": 2
+        },
+        "variables": {
+            "result": null,
+            "x": 3,
+            "cnt": null
+        }
+    },
+    {
+        "loop_info": {
+            "for": 3
+        },
+        "variables": {
+            "result": null,
+            "x": 6,
+            "cnt": null
+        }
+    },
+    {
+        "loop_info": {
+            "for": 4
+        },
+        "variables": {
+            "result": null,
+            "x": 10,
+            "cnt": null
+        }
+    }
+]
