@@ -1,26 +1,26 @@
 import ast
 import astor
+from collections import deque
 
-class ValueTracker(ast.NodeTransformer): #extend ast.NodeTransformer
+class Analyzer(ast.NodeVisitor):
     def __init__(self, code:str):
         self.ast = ast.parse(code)
+        self.variables = deque()
+        self.loop_variables = deque()
+        self.functions = {}
+        self.classes = {}
     
     def visit_Assign(self, node):
-        # Instrument variable assignments
-        self.generic_visit(node)  # Visit all other child nodes first
-        print_statements = []
-        
+        node_id = self.generic_visit(node)
         for target in node.targets:
-            print_stmt = ast.parse(f"print('Variable: {target.id} updated to =', {astor.to_source(node.value).strip()})").body
-            print_statements.extend(print_stmt)
-        return [node] + print_statements
-
-
+            if isinstance(target, ast.Name):
+                self.variables.append(target.id)
+        return node_id
+    
     def visit_For(self, node):
-        # Instrument For loops to print each iteration
-        self.generic_visit(node)  # Process the loop body first to capture internal changes
+        self.generic_visit(node)
         loop_var = astor.to_source(node.target).strip()
-        # Create a print statement to capture the state of all variables updated within the loop
+        self.loop_variables.append(loop_var)
         new_body = [ast.parse(f"print('Loop iteration with {loop_var} =', {loop_var})").body[0]]
         for stmt in node.body:
             new_body.append(stmt)
@@ -47,30 +47,41 @@ class ValueTracker(ast.NodeTransformer): #extend ast.NodeTransformer
                         new_body.append(print_stmt)
         node.body = new_body
         return node
-    
+    def visit_FunctionDef(self, node):
+        node_id = self.generic_visit(node)
+        function_code = astor.to_source(node)
+        self.functions[node.name] = function_code.strip()
+        return node_id
+
+    def visit_ClassDef(self, node):
+        node_id = self.generic_visit(node)
+        class_code = astor.to_source(node)
+        self.classes[node.name] = class_code.strip()
+        return node_id
+
     def analyze(self):
         self.visit(self.ast)
-# Example Python code to instrument
-code = """
+
+# Sample code for analysis
+code = '''
+class Math:
+    def add(self, x, y):
+        return x + y
+
 def compute(x, y):
     result = x + y
     return result
 
-class Example:
-    def method(self):
-        pass
-x=0
+x = 0
 for i in range(5):
-    compute(i, i+1)
-    x+=i
-"""
+    compute(i, i + 1)
+    x += i
+'''
 
-# Parse the code to an AST
+analyzer = Analyzer(code)
+analyzer.analyze()
+print(analyzer.variables)
+print(analyzer.functions)
+print(analyzer.classes)
 
-tracker = ValueTracker(code)
-tracker.analyze()
-# Convert the modified AST back to source code and execute it
-instrumented_source = astor.to_source(tracker.ast)
-# print(instrumented_source)  # Optionally print the modified code to see the changes
-exec(instrumented_source)
-# print(ast.dump(parsed_code, indent = 4))
+exec(astor.to_source(analyzer.ast))

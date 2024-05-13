@@ -3,7 +3,7 @@ import astor
 from collections import deque
 
 class AlgorithmTracker(ast.NodeVisitor):
-    def __init__(self, code):
+    def __init__(self, code:str):
         self.ast = ast.parse(code)
         self.variables = deque()
         self.loop_variables = deque()
