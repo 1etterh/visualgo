@@ -1,34 +1,35 @@
 import ast
 import astor
-from collections import deque
+from collections import defaultdict
+from Types import Data
 
-class Analyzer(ast.NodeVisitor):
+class Tracker(ast.NodeTransformer):
     def __init__(self, code:str):
         self.ast = ast.parse(code)
-        self.variables = deque()
-        self.loop_variables = deque()
+        self.variables = defaultdict(lambda:None)
+        self.loop_variables = defaultdict(lambda:None)
         self.functions = {}
         self.classes = {}
-    
     def visit_Assign(self, node):
         node_id = self.generic_visit(node)
         for target in node.targets:
             if isinstance(target, ast.Name):
-                self.variables.append(target.id)
+                self.variables[target.id]
         return node_id
     
     def visit_For(self, node):
         self.generic_visit(node)
         loop_var = astor.to_source(node.target).strip()
-        self.loop_variables.append(loop_var)
+        self.loop_variables[loop_var]
         new_body = [ast.parse(f"print('Loop iteration with {loop_var} =', {loop_var})").body[0]]
+        new_body.append(ast.parse(f"tracker.loop_variables['{loop_var}']={loop_var}"))
         for stmt in node.body:
             new_body.append(stmt)
             if isinstance(stmt, ast.Assign) or isinstance(stmt, ast.AugAssign):
                 targets=stmt.targets if isinstance(stmt,ast.Assign) else [stmt.target]
                 for target in targets:
                     if isinstance(target, ast.Name):
-                        print_stmt = ast.parse(f"print('During loop, {target.id} =', {target.id})").body[0]
+                        print_stmt = ast.parse(f"tracker.variables['{target.id}'] = {target.id}").body[0]
                         new_body.append(print_stmt)
         node.body = new_body
         return node
@@ -43,7 +44,7 @@ class Analyzer(ast.NodeVisitor):
             if isinstance(stmt, ast.Assign):
                 for target in stmt.targets:
                     if isinstance(target, ast.Name):
-                        print_stmt = ast.parse(f"print('During loop, {target.id} =', {target.id})").body[0]
+                        print_stmt = ast.parse(f"tracker.variables[{target.id}]={target.id}").body[0]
                         new_body.append(print_stmt)
         node.body = new_body
         return node
@@ -78,10 +79,10 @@ for i in range(5):
     x += i
 '''
 
-analyzer = Analyzer(code)
-analyzer.analyze()
-print(analyzer.variables)
-print(analyzer.functions)
-print(analyzer.classes)
-
-exec(astor.to_source(analyzer.ast))
+tracker = Tracker(code)
+tracker.analyze()
+exec(astor.to_source(tracker.ast))
+print(tracker.variables)
+print(tracker.functions)
+print(tracker.classes)
+print(tracker.loop_variables)
