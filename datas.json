@@ -48,5 +48,60 @@
             "x": 10,
             "cnt": null
         }
+    },
+    {
+        "loop_info": {
+            "while": "(cnt < 5)",
+            "iteration": 0
+        },
+        "variables": {
+            "result": null,
+            "x": 10,
+            "cnt": 1
+        }
+    },
+    {
+        "loop_info": {
+            "while": "(cnt < 5)",
+            "iteration": 1
+        },
+        "variables": {
+            "result": null,
+            "x": 11,
+            "cnt": 2
+        }
+    },
+    {
+        "loop_info": {
+            "while": "(cnt < 5)",
+            "iteration": 2
+        },
+        "variables": {
+            "result": null,
+            "x": 13,
+            "cnt": 3
+        }
+    },
+    {
+        "loop_info": {
+            "while": "(cnt < 5)",
+            "iteration": 3
+        },
+        "variables": {
+            "result": null,
+            "x": 16,
+            "cnt": 4
+        }
+    },
+    {
+        "loop_info": {
+            "while": "(cnt < 5)",
+            "iteration": 4
+        },
+        "variables": {
+            "result": null,
+            "x": 20,
+            "cnt": 5
+        }
     }
 ]
