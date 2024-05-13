@@ -1,11 +1,18 @@
 import ast
 import astor
+import json
 from collections import defaultdict
 
 class Data:
     def __init__(self, loop_info, variables):
         self.loop_info = loop_info
         self.variables = variables
+
+    def to_json(self):
+        return json.dumps({
+            "loop_info": self.loop_info,
+            "variables": self.variables
+        }, indent=4)
 
     def __repr__(self):
         return f"Data(loop_info={self.loop_info}, variables={self.variables})"
@@ -41,14 +48,15 @@ class Tracker(ast.NodeTransformer):
                         print_stmt = ast.parse(f"tracker.variables['{target.id}'] = {target.id}").body[0]
                         new_body.append(print_stmt)
 
-        # Correct the way data instance is created and append to body
-        data_code = f"data = Data(loop_info={{'for': {loop_var}}}, variables=dict(tracker.variables))"
+        # Create and append data instance
+        data_code = f"data = Data(loop_info={{'for': '{loop_var}'}}, variables=dict(tracker.variables))"
         new_body.append(ast.parse(data_code).body[0])
         new_body.append(ast.parse("tracker.datas.append(data)").body[0])
         node.body = new_body
         return node
 
     def visit_While(self, node):
+        # Instrument While loops similarly
         self.generic_visit(node)
         print_stmt = ast.parse("print('While loop iteration')").body[0]
         new_body = [print_stmt]
@@ -95,9 +103,7 @@ for i in range(5):
 
 tracker = Tracker(code)
 tracker.analyze()
-# print(astor.to_source(tracker.ast))
 exec(astor.to_source(tracker.ast))
-# print(tracker.variables)
-# print(tracker.functions)
-# print(tracker.classes)
-print(tracker.datas)
+# Convert all Data instances in tracker.datas to JSON
+json_datas = [data.to_json() for data in tracker.datas]
+print(json_datas)
