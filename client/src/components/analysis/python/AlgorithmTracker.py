@@ -2,7 +2,7 @@ import ast
 import astor
 from collections import deque
 
-class PythonASTAnalyzer(ast.NodeVisitor):
+class AlgorithmTracker(ast.NodeVisitor):
     def __init__(self, code):
         self.ast = ast.parse(code)
         self.variables = deque()
@@ -54,10 +54,8 @@ for i in range(5):
     x += i
 '''
 
-analyzer = PythonASTAnalyzer(code)
-analyzer.analyze()
 
-print("Variables:", analyzer.variables)
-print("Loop Variables:", analyzer.loop_variables)
-print("Functions:", analyzer.functions)
-print("Classes:", analyzer.classes)
+# print("Variables:", analyzer.variables)
+# print("Loop Variables:", analyzer.loop_variables)
+# print("Functions:", analyzer.functions)
+# print("Classes:", analyzer.classes)
