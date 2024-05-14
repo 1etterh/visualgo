@@ -5,12 +5,7 @@ export interface TestCase{
 }
 
 export interface State {
-    pyodide:{
-        loadPackage(packages:Array<string>):void
-        runPythonAsync(script:String):void
-        runPython(script:String):void
-        globals:any
-    } | null
+    pyodide:any
     code: string;
     results: JSON;
     variables: Record<string, any>;

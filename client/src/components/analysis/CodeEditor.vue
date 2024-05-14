@@ -62,6 +62,9 @@ json.dumps(data)`,
       const runCode = async () => {
         if (state.pyodide && state.pyodideLoaded) {
           try {
+            await state.pyodide.loadPackage('micropip');
+            const micropip = state.pyodide.pyimport("micropip");
+            await micropip.install('astor');
             const output = await state.pyodide.runPythonAsync(state.code);
             state.results = JSON.parse(`${output}`); // Storing results in a generic format
             console.log(state.results);
