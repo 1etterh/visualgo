@@ -1,5 +1,6 @@
 import ast
 import astor
+import js
 import json
 from collections import defaultdict
 
@@ -130,7 +131,3 @@ tracker.analyze()
 exec(astor.to_source(tracker.ast))
 
 # Convert all Data instances in tracker.datas to dictionaries and save to JSON file
-with open('datas.json', 'w') as file:
-    json.dump([data.to_dict() for data in tracker.datas], file, indent=4)
-
-print("Data saved to datas.json.")

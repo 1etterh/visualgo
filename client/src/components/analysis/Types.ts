@@ -13,5 +13,7 @@ export interface State {
     functions: Record<string, any>;
     timeComplexity: Record<string, any>;
     testCases?:TestCase //optional property
-    errorMsg:string|null
-    pyodideLoaded:boolean    }
+    errorMsg:string|null;
+    pyodideLoaded:boolean;
+    astorLoaded:boolean;
+    }
