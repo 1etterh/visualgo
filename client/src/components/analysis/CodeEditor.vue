@@ -53,6 +53,7 @@ json.dumps(data)`,
           script.onload=async()=>{
           state.pyodide = await window.loadPyodide();
           state.pyodideLoaded = true;
+          await importAstor();
           }
         } catch (error:any) {
           state.errorMsg = 'Failed to load Pyodide: ' + error.message;
@@ -62,9 +63,6 @@ json.dumps(data)`,
       const runCode = async () => {
         if (state.pyodide && state.pyodideLoaded) {
           try {
-            await state.pyodide.loadPackage('micropip');
-            const micropip = state.pyodide.pyimport("micropip");
-            await micropip.install('astor');
             const output = await state.pyodide.runPythonAsync(state.code);
             state.results = JSON.parse(`${output}`); // Storing results in a generic format
             console.log(state.results);
@@ -73,7 +71,16 @@ json.dumps(data)`,
           }
         }
       };
-  
+      const importAstor=async()=>{
+        try{
+          await state.pyodide.loadPackage('micropip');
+            const micropip = state.pyodide.pyimport("micropip");
+            await micropip.install('astor');
+        }
+        catch(err:any){
+          state.errorMsg=err
+        }
+      }
       const cmOptions = {
         styleActiveLine: true,
         lineNumbers: true,
