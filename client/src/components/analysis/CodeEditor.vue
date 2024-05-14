@@ -178,7 +178,7 @@ result = json.dumps([data.to_dict() for data in tracker.datas], indent=4)
     components: {
       Codemirror,
     },
-    setup() {
+    setup(props,{emit}) {
       
       onMounted(async () => {
         try {
@@ -201,6 +201,7 @@ result = json.dumps([data.to_dict() for data in tracker.datas], indent=4)
             await state.pyodide.runPythonAsync(state.code);
             state.results =await state.pyodide.globals.get("result"); // Storing results in a generic format
             console.log(state.results);
+            emit('code-executed',state.results);
           } catch (error:any) {
             state.errorMsg = 'Error running Python code: ' + error.message;
           }
